@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: cnc-virtual-iot
+    runtime: node
+    plan: free
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeployTrigger: off
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MAX_SESSIONS
+        value: "100"

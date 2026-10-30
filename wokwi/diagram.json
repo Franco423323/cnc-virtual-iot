@@ -1,0 +1,213 @@
+{
+  "version": 1,
+  "author": "Proyecto CNC educativo",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-arduino-uno",
+      "id": "uno",
+      "top": 150,
+      "left": -40,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-a4988",
+      "id": "driverX",
+      "top": -175,
+      "left": 275,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-a4988",
+      "id": "driverY",
+      "top": 190,
+      "left": 475,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-stepper-motor",
+      "id": "motorX",
+      "top": -190,
+      "left": 530,
+      "attrs": {
+        "size": "17",
+        "display": "steps",
+        "arrow": "orange"
+      }
+    },
+    {
+      "type": "wokwi-stepper-motor",
+      "id": "motorY",
+      "top": 195,
+      "left": 735,
+      "attrs": {
+        "size": "17",
+        "display": "steps",
+        "arrow": "blue"
+      }
+    },
+    {
+      "type": "wokwi-servo",
+      "id": "lapicero",
+      "top": -110,
+      "left": -260,
+      "attrs": {}
+    }
+  ],
+  "connections": [
+    [
+      "uno:2",
+      "driverX:STEP",
+      "green",
+      []
+    ],
+    [
+      "uno:5",
+      "driverX:DIR",
+      "orange",
+      []
+    ],
+    [
+      "uno:3",
+      "driverY:STEP",
+      "green",
+      []
+    ],
+    [
+      "uno:6",
+      "driverY:DIR",
+      "orange",
+      []
+    ],
+    [
+      "uno:5V",
+      "driverX:VDD",
+      "red",
+      []
+    ],
+    [
+      "uno:5V",
+      "driverY:VDD",
+      "red",
+      []
+    ],
+    [
+      "uno:GND.1",
+      "driverX:GND.1",
+      "black",
+      []
+    ],
+    [
+      "uno:GND.1",
+      "driverY:GND.1",
+      "black",
+      []
+    ],
+    [
+      "driverX:1B",
+      "motorX:B-",
+      "blue",
+      []
+    ],
+    [
+      "driverX:1A",
+      "motorX:B+",
+      "blue",
+      []
+    ],
+    [
+      "driverX:2A",
+      "motorX:A+",
+      "yellow",
+      []
+    ],
+    [
+      "driverX:2B",
+      "motorX:A-",
+      "yellow",
+      []
+    ],
+    [
+      "driverY:1B",
+      "motorY:B-",
+      "blue",
+      []
+    ],
+    [
+      "driverY:1A",
+      "motorY:B+",
+      "blue",
+      []
+    ],
+    [
+      "driverY:2A",
+      "motorY:A+",
+      "yellow",
+      []
+    ],
+    [
+      "driverY:2B",
+      "motorY:A-",
+      "yellow",
+      []
+    ],
+    [
+      "uno:9",
+      "lapicero:PWM",
+      "green",
+      []
+    ],
+    [
+      "uno:5V",
+      "lapicero:V+",
+      "red",
+      []
+    ],
+    [
+      "uno:GND.1",
+      "lapicero:GND",
+      "black",
+      []
+    ],
+    [
+      "uno:5V",
+      "driverX:RESET",
+      "purple",
+      []
+    ],
+    [
+      "uno:5V",
+      "driverX:SLEEP",
+      "purple",
+      []
+    ],
+    [
+      "uno:GND.1",
+      "driverX:ENABLE",
+      "black",
+      []
+    ],
+    [
+      "uno:5V",
+      "driverY:RESET",
+      "purple",
+      []
+    ],
+    [
+      "uno:5V",
+      "driverY:SLEEP",
+      "purple",
+      []
+    ],
+    [
+      "uno:GND.1",
+      "driverY:ENABLE",
+      "black",
+      []
+    ]
+  ],
+  "serialMonitor": {
+    "display": "always",
+    "newline": "lf"
+  }
+}

@@ -1,0 +1,12 @@
+.real-iot-panel{border-color:#2b625e;background:linear-gradient(150deg,#122d31,#101923 75%)}
+.real-iot-panel code{font:11px Consolas,monospace;color:#b2e7d9}
+.real-iot-panel .iot-stats strong{font-size:12px}
+.pair-box{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px;border:1px solid #356763;border-radius:8px;background:#0b2528}
+.pair-box small{display:block;color:#88bdb4;font-size:9px;font-weight:800;letter-spacing:.08em}
+.pair-box strong{display:block;font:800 24px/1.1 Consolas,monospace;letter-spacing:.18em;color:#9df5da;margin-top:5px}
+.pair-box button{font-size:11px;padding:7px 9px}
+.real-detail{font-size:11px;color:#9fbac3;line-height:1.55;margin:9px 0 0;overflow-wrap:anywhere}
+.real-detail strong{color:#e6f7f3}
+.real-detail span{color:#d7b6a6}
+.real-detail a{color:#9df5da;text-decoration:underline;text-underline-offset:2px}
+.real-detail a:not([href]){color:#9fbac3;text-decoration:none}

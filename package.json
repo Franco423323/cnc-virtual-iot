@@ -1,0 +1,14 @@
+{
+  "name": "cnc-virtual-iot",
+  "version": "6.1.0",
+  "private": true,
+  "description": "Simulador CNC virtual con sesiones independientes y controlador WebSocket local o en Render",
+  "engines": { "node": ">=24 <25" },
+  "scripts": {
+    "start": "node server/server.cjs",
+    "test": "node --test test/*.test.cjs"
+  },
+  "dependencies": {
+    "ws": "^8.18.3"
+  }
+}
