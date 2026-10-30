@@ -1,0 +1,26 @@
+:root{
+  color-scheme:dark;
+  --bg:#171b1e;--surface:#22282c;--surface-raised:#2b3338;--inset:#191f23;
+  --line:#3b454a;--line-strong:#56636a;--text:#edf0ef;--muted:#adb8ba;
+  --accent:#8eb7b3;--accent-fill:#315d5b;--success:#82b3a0;--warning:#d2ae78;--danger:#df978d;
+  --radius:6px;--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:24px;
+  font-family:"Segoe UI",Inter,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scrollbar-gutter:stable}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 "Segoe UI",Inter,Arial,sans-serif}
+button,input,select,textarea{font:inherit}
+button,.file-button{min-height:40px;padding:8px 13px;border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--surface-raised);color:var(--text);font-weight:600;cursor:pointer;touch-action:manipulation;transition:background .15s,border-color .15s}
+button:hover:not(:disabled),.file-button:hover{background:#354045;border-color:#819096}
+button:active:not(:disabled){background:#1c2529}
+button:disabled{opacity:.43;cursor:not-allowed}
+.button-primary,.primary{background:var(--accent-fill);border-color:#6e9c97;color:#f4faf8}
+.button-primary:hover:not(:disabled),.primary:hover:not(:disabled){background:#3b6a66;border-color:#a2c8c2}
+.button-danger,.danger{color:#f1b5ae;border-color:#95625d;background:transparent}
+.button-danger:hover:not(:disabled),.danger:hover:not(:disabled){background:#422e2d;border-color:var(--danger)}
+input:not([type=range]):not([type=file]),select,textarea{min-width:0;padding:8px 10px;border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--inset);color:var(--text)}
+input[type=range]{accent-color:var(--accent);width:100%}
+button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible,a:focus-visible,.file-button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+a{color:#acd0ca;text-underline-offset:3px}
+small{font-size:11px;color:var(--muted)}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}

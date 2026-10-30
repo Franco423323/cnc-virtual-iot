@@ -32,10 +32,13 @@ function mount() {
 test('interfaz: ejecución, pausa, remoto, enlace, jog, validación e importación',async()=>{
   const {e,stepFrames,frames}=mount();
   assert.ok(e.commands.value.includes('G21'));
+  assert.equal(e.pause.disabled,true);assert.equal(e.stop.disabled,true);assert.equal(e.jogRight.disabled,false);
   e.run.onclick();stepFrames(6);assert.equal(e.machineState.textContent,'EJECUTANDO');
+  assert.equal(e.run.disabled,true);assert.equal(e.stop.disabled,false);assert.equal(e.jogRight.disabled,true);assert.equal(e.load.disabled,true);
   const movingX=e.xval.innerHTML;e.pause.onclick();stepFrames(8);assert.equal(e.machineState.textContent,'PAUSADO');assert.equal(e.xval.innerHTML,movingX);
   e.pause.onclick();stepFrames(8);assert.equal(e.machineState.textContent,'EJECUTANDO');
   e.stop.onclick();assert.equal(e.machineState.textContent,'DETENIDO');assert.equal(frames.size,0);
+  assert.equal(e.jogRight.disabled,false);assert.equal(e.stop.disabled,true);
   e.reset.onclick();assert.equal(e.progress.textContent,'0%');assert.ok(e.xval.innerHTML.startsWith('0.00'));
   e.penToggle.onclick();e.jogRight.onclick();stepFrames(100);assert.ok(e.xval.innerHTML.startsWith('10.00'));assert.equal(e.penval.textContent,'ABAJO');
   e.penToggle.onclick();e.home.onclick();stepFrames(100);assert.ok(e.xval.innerHTML.startsWith('0.00'));

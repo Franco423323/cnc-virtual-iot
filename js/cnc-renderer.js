@@ -55,7 +55,7 @@
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const bg = ctx.createLinearGradient(0,0,0,820); bg.addColorStop(0,'#101f2b'); bg.addColorStop(1,'#08131d'); ctx.fillStyle=bg; ctx.fillRect(0,0,1200,820);
     for(let x=35;x<1200;x+=40) for(let y=30;y<820;y+=40){ctx.fillStyle='#1c3542';ctx.fillRect(x,y,1,1)}
-    label(ctx,'CNC / XY PLOTTER',40,45,'#7da9b6',16); label(ctx,'MECÁNICA VIRTUAL · VISTA SUPERIOR',40,66,'#557b8a',11);
+    label(ctx,'PLOTTER XY',40,45,'#a5bec0',16); label(ctx,'ÁREA DE TRAZADO · 200 × 150 mm',40,66,'#758f94',11);
     // Bastidor y cama de trabajo.
     round(ctx,118,105,951,669,20,'#152b38','#557081',3);
     round(ctx,136,121,915,637,13,'#263c47','#809aa5',2);

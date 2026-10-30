@@ -1,10 +1,48 @@
 <!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b1822"><title>Control remoto · CNC Virtual</title><link rel="stylesheet" href="css/remote.css"></head>
-<body><main class="remote-shell"><header><div class="mark">C·</div><div><p>CONTROLADOR WEB / CNC VIRTUAL</p><h1>CNC <span>Remoto</span></h1><p>SESIÓN <span id="sessionLabel">—</span></p></div><div id="connectionBadge" class="badge">CONECTANDO</div></header>
-  <section class="card pair-card"><div class="card-head"><div><small>ACCESO</small><h2>Emparejamiento</h2></div><span id="pairState">SIN EMPAREJAR</span></div><p>Solicita el código temporal que aparece en la laptop anfitriona.</p><div class="pair-row"><input id="pairInput" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="000000" autocomplete="one-time-code" aria-label="Código de seis dígitos"><button id="pairButton" class="primary">Conectar</button></div></section>
-  <section class="card"><div class="card-head"><div><small>ESTADO EN VIVO</small><h2>Máquina principal</h2></div><span id="availability" class="availability">NO DISPONIBLE</span></div><div class="metrics"><div><small>TRABAJO CARGADO</small><strong id="loadedJob">—</strong></div><div><small>ESTADO CNC</small><strong id="machineMode">—</strong></div><div><small>EJE X</small><strong id="x">0.00 <em>mm</em></strong></div><div><small>EJE Y</small><strong id="y">0.00 <em>mm</em></strong></div><div><small>LAPICERO</small><strong id="pen">ARRIBA</strong></div><div><small>PROGRESO</small><strong id="progress">0%</strong></div></div><div class="progress-track"><div id="progressBar"></div></div><p id="line">Línea G-Code: —</p></section>
-  <section class="card"><div class="card-head"><div><small>TRABAJO</small><h2>Ejecución</h2></div></div><div class="actions"><button id="start" class="primary" data-action="start_job">▶ Iniciar</button><button id="pause" data-action="pause_job">⏸ Pausar</button><button id="resume" data-action="resume_job">▶ Reanudar</button><button id="stop" class="danger" data-action="stop_job">■ Detener</button></div></section>
-  <section class="card"><div class="card-head"><div><small>POSICIONAMIENTO</small><h2>Ejes y servo</h2></div><label for="step">PASO <select id="step"><option value="1">1 mm</option><option value="5">5 mm</option><option value="10" selected>10 mm</option><option value="25">25 mm</option></select></label></div><div class="jog"><button id="up">Y+</button><div><button id="left">X−</button><button id="home" class="home">⌂</button><button id="right">X+</button></div><button id="down">Y−</button></div><div class="actions servo"><button id="penUp" data-action="pen_up">↑ Elevar lapicero</button><button id="penDown" data-action="pen_down">↓ Bajar lapicero</button></div></section>
-  <section class="card messages"><div class="card-head"><div><small>RESPUESTAS DEL SERVIDOR</small><h2>Mensajes</h2></div><button id="clear">Limpiar</button></div><div id="messages" role="log" aria-live="polite"></div></section>
-  <footer>Control real por WebSocket local o por WSS en HTTPS. La simulación y el G-Code se ejecutan únicamente en la pestaña anfitriona.</footer>
-</main><script src="js/remote.js"></script></body></html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#171b1e">
+  <title>Control remoto | CNC Virtual</title>
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/remote.css">
+  <style>[hidden]{display:none!important}</style>
+</head>
+<body>
+<main class="remote-shell">
+  <header class="remote-header"><div class="brand"><span class="mark" aria-hidden="true">C<span>·</span></span><div><p>CNC Virtual</p><h1>Control remoto</h1></div></div><div id="connectionBadge" class="connection-badge" role="status">Conectando</div></header>
+
+  <section id="pairCard" class="pair-card" aria-labelledby="pairTitle">
+    <div class="section-heading"><h2 id="pairTitle">Conectar a la máquina</h2><span id="pairState">SIN EMPAREJAR</span></div>
+    <p>Introduce el código temporal que aparece en la estación de trabajo.</p>
+    <div class="pair-row"><label class="sr-only" for="pairInput">Código de seis dígitos</label><input id="pairInput" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="000000" autocomplete="one-time-code" aria-describedby="pairHelp"><button id="pairButton" class="primary">Conectar</button></div>
+    <p id="pairHelp" class="pair-help">El enlace y el código corresponden a una sola sesión.</p>
+  </section>
+
+  <div id="remotePanel" class="remote-panel">
+    <section class="job-panel" aria-labelledby="jobTitle">
+      <div class="job-head"><div><p class="section-label">Trabajo actual</p><h2 id="jobTitle"><span id="loadedJob">—</span></h2></div><span id="availability" class="availability">No disponible</span></div>
+      <div class="machine-mode-row"><span>Máquina</span><strong id="machineMode">—</strong></div>
+      <div class="progress-label"><span>Progreso</span><strong id="progress">0%</strong></div>
+      <div class="progress-track" role="progressbar" aria-label="Progreso del trabajo"><div id="progressBar"></div></div>
+      <div class="axis-readouts"><div><small>Posición X</small><strong id="x">0.00 <em>mm</em></strong></div><div><small>Posición Y</small><strong id="y">0.00 <em>mm</em></strong></div><div><small>Lapicero</small><strong id="pen">ARRIBA</strong></div></div>
+      <p id="line" class="line-readout">Línea G-Code: —</p>
+    </section>
+
+    <section class="execution-panel" aria-labelledby="executionTitle"><div class="section-heading"><h2 id="executionTitle">Ejecución</h2></div>
+      <div class="actions"><button id="start" class="primary action-main" data-action="start_job">Iniciar trabajo</button><button id="pause" class="action-main" data-action="pause_job">Pausar</button><button id="resume" class="primary action-main" data-action="resume_job">Reanudar</button><button id="stop" class="danger" data-action="stop_job">Detener</button></div>
+      <p id="commandFeedback" class="command-feedback" role="status" aria-live="polite">Conecta la sesión para enviar órdenes.</p>
+    </section>
+
+    <section class="manual-panel" aria-labelledby="manualTitle"><div class="section-heading"><h2 id="manualTitle">Movimiento manual</h2><label for="step">Paso <select id="step"><option value="1">1 mm</option><option value="5">5 mm</option><option value="10" selected>10 mm</option><option value="25">25 mm</option></select></label></div>
+      <p class="manual-help">Cada pulsación mueve un paso. Disponible con el trabajo detenido.</p>
+      <div class="manual-content"><div class="jog"><button id="up" aria-label="Mover eje Y positivo">Y+</button><div><button id="left" aria-label="Mover eje X negativo">X−</button><button id="home" class="home" aria-label="Regresar al origen">Origen</button><button id="right" aria-label="Mover eje X positivo">X+</button></div><button id="down" aria-label="Mover eje Y negativo">Y−</button></div><div class="servo"><button id="penUp" data-action="pen_up">Elevar lapicero</button><button id="penDown" data-action="pen_down">Bajar lapicero</button></div></div>
+    </section>
+  </div>
+  <details class="session-panel"><summary>Sesión y mensajes</summary><div class="session-content"><p>Sesión <code id="sessionLabel">—</code></p><button id="changeCode">Cambiar código</button><div class="messages-head"><h2>Respuestas del servidor</h2><button id="clear">Limpiar</button></div><div id="messages" role="log" aria-live="polite"></div></div></details>
+  <footer>La máquina y el G-Code se ejecutan en la estación anfitriona.</footer>
+</main>
+<script src="js/remote.js"></script>
+</body>
+</html>

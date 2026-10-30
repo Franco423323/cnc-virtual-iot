@@ -9,7 +9,7 @@ const { WebSocket, WebSocketServer } = require('ws');
 const ROOT = path.resolve(__dirname, '..');
 const FILES = new Map([
   ['/', 'index.html'], ['/index.html', 'index.html'], ['/remote', 'remote.html'], ['/remote.html', 'remote.html'],
-  ['/css/style.css', 'css/style.css'], ['/css/network.css', 'css/network.css'], ['/css/remote.css', 'css/remote.css'],
+  ['/css/design-system.css', 'css/design-system.css'], ['/css/style.css', 'css/style.css'], ['/css/network.css', 'css/network.css'], ['/css/remote.css', 'css/remote.css'],
   ...['gcode-parser','cnc-engine','cnc-renderer','examples','iot-simulator','app','network-client','remote'].map(name => [`/js/${name}.js`, `js/${name}.js`]),
 ]);
 const MIME = { '.html':'text/html; charset=utf-8', '.css':'text/css; charset=utf-8', '.js':'text/javascript; charset=utf-8' };

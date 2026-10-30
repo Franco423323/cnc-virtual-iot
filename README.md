@@ -53,15 +53,18 @@ El parser y el motor único de la Fase 5 admiten `G0`, `G1`, `G20/G21`, `G90/G91
 
 ## Pruebas
 
-Ejecuta `npm test`. La suite cubre parser y figuras, límites, pausa/reanudación, controles locales y remotos, importación de G-Code, modo `file://`, servidor HTTP, emparejamiento, autorización, telemetría, reconexión, selección de WS/WSS y aislamiento de dos sesiones simultáneas. Las pruebas WebSocket usan `127.0.0.1`; no sustituyen una comprobación visual en dispositivos reales ni una prueba del despliegue de Render. `npm ci` verifica que el lockfile puede instalar las dependencias.
+Ejecuta `npm test`. La suite cubre parser y figuras, límites, pausa/reanudación, controles habilitados y deshabilitados, importación de G-Code, modo `file://`, servidor HTTP, emparejamiento aceptado y rechazado, telemetría, órdenes remotas y sus confirmaciones, reconexión, selección de WS/WSS y aislamiento de dos sesiones simultáneas. Las pruebas WebSocket usan `127.0.0.1`. `npm ci` verifica que el lockfile puede instalar las dependencias.
 
-**Resultado ejecutado el 30-10-2026:** `npm ci` completó sin vulnerabilidades informadas; `npm test` pasó **16/16**; `node --check` pasó para servidor y clientes de red; `npm start` respondió `200 {"status":"ok"}` en `/health`. La negociación TLS/WSS de Render, el acceso desde Internet y el comportamiento visual en navegadores reales quedan pendientes de comprobación cuando se despliegue manualmente.
+Para repetir la revisión visual local, inicia el servidor en el puerto 3099 (`$env:PORT="3099"; npm start`) y ejecuta `node tools/visual-check.cjs` en otra terminal con Chrome instalado en Windows. El script prueba 1366 × 768, 1280 × 720, 768 × 1024, 390 × 844 y 360 × 740; verifica el ancho sin desbordamiento, la acción principal visible y el formulario oculto tras el emparejamiento. Guarda capturas en `artifacts/ui/`.
+
+**Resultado ejecutado el 30-10-2026:** `npm test` pasó **16/16**. La revisión visual con Chrome local pasó en los cinco viewports y generó capturas del escritorio, el acceso remoto y el panel emparejado. La negociación TLS/WSS de Render, el acceso desde Internet y el uso en dispositivos físicos quedan pendientes de comprobación tras un despliegue manual.
 
 ## Archivos
 
 - `server/server.cjs`: HTTP, sesiones y WebSocket.
 - `js/network-client.js`: anfitrión, recuperación de sesión y telemetría.
 - `remote.html`, `js/remote.js`, `css/remote.css`: controlador remoto responsive.
+- `css/design-system.css`: colores, espaciado, campos, botones y focos compartidos.
 - `js/gcode-parser.js`, `js/cnc-engine.js`, `js/cnc-renderer.js`: CNC local.
 - `js/app.js`, `js/examples.js`, `js/iot-simulator.js`: interfaz, ejemplos e IoT simulado.
 - `render.yaml`, `package.json`, `.env.example`: despliegue y configuración.

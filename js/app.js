@@ -10,17 +10,30 @@
     $('xval').innerHTML = `${engine.x.toFixed(2)} <span>mm</span>`;
     $('yval').innerHTML = `${engine.y.toFixed(2)} <span>mm</span>`;
     $('penval').textContent = engine.contact ? 'ABAJO' : engine.pen && engine.mode === 'running' ? 'ARRIBA / G0' : engine.pen ? 'ABAJO' : 'ARRIBA';
-    $('penval').style.color = engine.contact ? '#f4b766' : '#78ddd1';
+    $('penval').style.color = engine.contact ? 'var(--warning)' : 'var(--text)';
     const progress = Math.round(engine.progress);
     $('progress').textContent = `${progress}%`; $('progressBar').style.width = `${progress}%`; $('progressTrack').setAttribute('aria-valuenow', String(progress));
     $('lineBadge').textContent = engine.line ? `LÍNEA ${engine.line}` : 'LÍNEA —';
     const modes = { idle: 'EN ESPERA', running: 'EJECUTANDO', paused: 'PAUSADO', stopped: 'DETENIDO', complete: 'COMPLETO', jogging: 'MOVIENDO' };
     $('machineState').textContent = modes[engine.mode];
-    $('stateDot').className = 'state-dot' + (engine.mode === 'paused' ? ' paused' : engine.mode === 'stopped' ? ' stopped' : '');
-    $('run').disabled = ['running','paused','jogging'].includes(engine.mode);
+    $('stateDot').className = 'state-dot ' + engine.mode;
+    const active = ['running','paused','jogging'].includes(engine.mode);
+    $('run').disabled = active;
     $('pause').disabled = !['running','paused'].includes(engine.mode);
-    $('pause').textContent = engine.mode === 'paused' ? '▶ Reanudar' : '⏸ Pausar';
-    $('penToggle').textContent = engine.pen ? '↑ Elevar lapicero' : '↓ Bajar lapicero';
+    $('stop').disabled = !active;
+    $('reset').disabled = active;
+    $('load').disabled = active;
+    $('shape').disabled = active;
+    $('pause').textContent = engine.mode === 'paused' ? 'Reanudar' : 'Pausar';
+    $('penToggle').textContent = engine.pen ? 'Elevar lapicero' : 'Bajar lapicero';
+    const step = Number($('step').value);
+    $('step').disabled = active;
+    $('jogUp').disabled = active || engine.y + step > 150;
+    $('jogDown').disabled = active || engine.y - step < 0;
+    $('jogLeft').disabled = active || engine.x - step < 0;
+    $('jogRight').disabled = active || engine.x + step > 200;
+    $('home').disabled = active || (engine.x === 0 && engine.y === 0);
+    $('penToggle').disabled = active;
     $('networkStatus').textContent = iot.online ? 'ENLACE VIRTUAL' : 'DESCONECTADO';
     $('networkStatus').classList.toggle('offline', !iot.online);
     $('networkToggle').textContent = iot.online ? 'Desconectar enlace' : 'Conectar enlace';
@@ -41,6 +54,8 @@
       $('remoteUrl').textContent = network.remoteUrls.length ? network.remoteUrls[0] : 'Inicia el servidor para ver la dirección.';
       if (network.remoteUrls.length) $('remoteUrl').href = network.remoteUrls[0];
       else $('remoteUrl').removeAttribute?.('href');
+      if (network.remoteUrls.length) $('remoteQuickLink').href = network.remoteUrls[0];
+      else $('remoteQuickLink').removeAttribute?.('href');
       network.publish();
     }
   }
@@ -101,6 +116,7 @@
   $('home').onclick = () => command(() => home());
   $('penToggle').onclick = () => command(() => setPen(!engine.pen));
   $('speed').oninput = () => { $('speedLabel').textContent = `${$('speed').value}×`; };
+  $('step').onchange = sync;
   $('shape').onchange = () => { $('nameRow').hidden = $('shape').value !== 'name'; };
   $('load').onclick = () => command(() => { const code = CNCExamples.get($('shape').value, $('customName').value); CNCParser.parse(code); $('commands').value = code; loadedJob = $('shape').selectedOptions[0].textContent.slice(0,80); updateLines(); reset(); setStatus('Figura cargada y lista para ejecutar.'); iot.log(`Figura cargada: ${loadedJob}.`); sync(); });
   $('validate').onclick = () => command(() => { const result = CNCParser.parse($('commands').value); setStatus(`G-Code válido: ${result.ops.length} operaciones. Punto final X ${result.end.x.toFixed(2)}, Y ${result.end.y.toFixed(2)} mm.`); iot.log(`G-Code validado: ${result.ops.length} operaciones.`); sync(); });
